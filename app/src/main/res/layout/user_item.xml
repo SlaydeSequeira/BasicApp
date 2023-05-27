@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#9a9999"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_below="@+id/imageView1"
+        android:background="#494949" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imageView1"
+        android:background="#9a9999"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView1"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+  />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:cardCornerRadius="30dp"
+        android:id="@+id/imageView1"
+        >
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
+  </androidx.cardview.widget.CardView>
+
+
+    <ImageView
+        android:id="@+id/statusimageON"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@color/purple_700"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/statusimageOFF"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_centerVertical="true"
+        app:srcCompat="@color/teal_200"
+        android:visibility="gone"/>
+
+
+
+</RelativeLayout>
