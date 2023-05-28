@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.basiclogintoapp.Fragments.ChatFragment;
+import com.example.basiclogintoapp.Fragments.HomeFragment;
 import com.example.basiclogintoapp.Fragments.SearchFragment;
 import com.example.basiclogintoapp.Model.Users;
 import com.example.basiclogintoapp.adapter.MyPagerAdapter;
@@ -87,11 +88,11 @@ public class HomePage extends AppCompatActivity {
         ViewPager viewPager= findViewById(R.id.viewpager);
 
         MyPagerAdapter pagerAdapter= new MyPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        pagerAdapter.addFragment(new ChatFragment(),"Chat");
+        pagerAdapter.addFragment(new HomeFragment(),"Home");
         pagerAdapter.addFragment(new SearchFragment(),"Search");
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.baseline_chat_24);
+        tabLayout.getTabAt(0).setIcon(R.drawable.baseline_home_24);
         tabLayout.getTabAt(1).setIcon(R.drawable.baseline_search_24);
     }
 

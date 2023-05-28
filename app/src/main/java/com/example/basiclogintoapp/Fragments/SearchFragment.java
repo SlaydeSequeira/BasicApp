@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,8 +28,11 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
+    EditText editText;
     private UserAdapter userAdapter;
     private List<Users> mUsers;
+
+    ImageView imageView;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -39,21 +44,25 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
+        editText= view.findViewById(R.id.edittext);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
+        imageView=view.findViewById(R.id.image);
         mUsers = new ArrayList<>();
-
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReadUsers();
+            }
+        });
         ReadUsers();
         return view;
-
     }
 
 
     private void ReadUsers() {
+        final String searchQuery = editText.getText().toString().toLowerCase();
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyUsers");
@@ -67,21 +76,21 @@ public class SearchFragment extends Fragment {
                     Users user = snapshot.getValue(Users.class);
 
                     assert user != null;
-                    if (!user.getId().equals(firebaseUser.getUid())) {
+                    if (!user.getId().equals(firebaseUser.getUid()) &&
+                            user.getUsername().toLowerCase().contains(searchQuery)) {
                         mUsers.add(user);
                     }
-
-                    userAdapter = new UserAdapter(getContext(), mUsers, false);
-                    recyclerView.setAdapter(userAdapter);
                 }
 
-
+                userAdapter = new UserAdapter(getContext(), mUsers, false);
+                recyclerView.setAdapter(userAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // Handle onCancelled event
             }
         });
     }
+
 }
