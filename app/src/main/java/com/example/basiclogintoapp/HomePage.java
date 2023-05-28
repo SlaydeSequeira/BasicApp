@@ -90,6 +90,7 @@ public class HomePage extends AppCompatActivity {
         MyPagerAdapter pagerAdapter= new MyPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         pagerAdapter.addFragment(new HomeFragment(),"Home");
         pagerAdapter.addFragment(new SearchFragment(),"Search");
+        pagerAdapter.addFragment(new SearchFragment(),"Payment");
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.baseline_home_24);
