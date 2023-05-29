@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,13 +54,6 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
-
-
-
-
-
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         myRef = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser
                 .getUid());
@@ -119,6 +113,11 @@ public class HomePage extends AppCompatActivity {
                 return true;
             case R.id.message:
                 replace(new ChatFragment());
+                return true;
+
+            case R.id.maps:
+                Intent i = new Intent(HomePage.this,MainActivity2.class);
+                startActivity(i);
                 return true;
 
         }

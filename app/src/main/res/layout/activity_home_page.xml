@@ -8,8 +8,6 @@
     tools:context=".HomePage"
     android:background="#9A9999">
 
-
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="0dp"

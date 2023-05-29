@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="7dp"
+        android:layout_height="3dp"
         android:layout_below="@+id/imageView1"
         android:background="#494949" />
 
@@ -18,21 +18,25 @@
         android:id="@+id/textView30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_toRightOf="@+id/imageView1"
         android:background="#9a9999"
         android:text="TextView"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView1"
-        android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-  />
+        app:layout_constraintStart_toEndOf="@+id/imageView1" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="60dp"
         android:layout_height="60dp"
         app:cardCornerRadius="30dp"
+        android:layout_margin="5dp"
+
         android:id="@+id/imageView1"
         >
     <ImageView
