@@ -2,9 +2,11 @@ package com.example.basiclogintoapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -42,28 +44,32 @@ public class HomePage extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference myRef;
 
-
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        myRef = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser
-                .getUid());
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        myRef = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
+
+        drawerLayout = findViewById(R.id.my_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, 0, 0);
+
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Users users = dataSnapshot.getValue(Users.class);
-
             }
 
             @Override
@@ -72,105 +78,70 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-
-
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        TabItem home=findViewById(R.id.Home);
-        TabItem search=findViewById(R.id.search);
-        TabItem marketplace=findViewById(R.id.marketplace);
-        TabItem chat=findViewById(R.id.chat);
-        ViewPager viewPager= findViewById(R.id.viewpager);
+        TabItem home = findViewById(R.id.Home);
+        TabItem search = findViewById(R.id.search);
+        TabItem marketplace = findViewById(R.id.marketplace);
+        TabItem chat = findViewById(R.id.chat);
+        ViewPager viewPager = findViewById(R.id.viewpager);
 
-        MyPagerAdapter pagerAdapter= new MyPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        pagerAdapter.addFragment(new HomeFragment(),"Home");
-        pagerAdapter.addFragment(new SearchFragment(),"Search");
-        pagerAdapter.addFragment(new SearchFragment(),"Payment");
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        pagerAdapter.addFragment(new HomeFragment(), "Home");
+        pagerAdapter.addFragment(new SearchFragment(), "Search");
+        pagerAdapter.addFragment(new SearchFragment(), "Payment");
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.baseline_home_24);
         tabLayout.getTabAt(1).setIcon(R.drawable.baseline_search_24);
-    }
 
-
-
-
-    // Adding Logout Functionality
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.logout:
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(HomePage.this, MainActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        break;
+                    case R.id.message:
+                        replace(new ChatFragment());
+                        break;
+                    case R.id.maps:
+                        Intent i = new Intent(HomePage.this, MainActivity2.class);
+                        startActivity(i);
+                        break;
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-
-
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(HomePage.this, MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                return true;
-            case R.id.message:
-                replace(new ChatFragment());
-                return true;
-
-            case R.id.maps:
-                Intent i = new Intent(HomePage.this,MainActivity2.class);
-                startActivity(i);
-                return true;
-
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
-    // Class ViewPagerAdapter
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private ArrayList<Fragment> fragments;
-        private ArrayList<String> titles;
-
-        ViewPagerAdapter(FragmentManager fm){
-            super(fm);
-            this.fragments = new ArrayList<>();
-            this.titles    = new ArrayList<>();
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles.get(position);
-        }
-
-
-
-
-
-
-
-
+    private void replace(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.test, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
-    private void CheckStatus(String status){
-
-        myRef  = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
+    private void CheckStatus(String status) {
+        myRef = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("status", status);
 
         myRef.updateChildren(hashMap);
     }
-
 
     @Override
     protected void onResume() {
@@ -183,16 +154,4 @@ public class HomePage extends AppCompatActivity {
         super.onPause();
         CheckStatus("Offline");
     }
-
-    private void replace (Fragment fragment)
-    {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.test, fragment);
-        fragmentTransaction.addToBackStack(null); // add the current fragment to the back stack
-        fragmentTransaction.commit();
-    }
-
-
-
 }
