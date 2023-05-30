@@ -13,7 +13,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="DummyApp"
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicLoginToApp"
         tools:targetApi="31">
@@ -22,9 +22,6 @@
             android:value="AIzaSyD3q0XgGvb9T-xvHaq6U-xVr3WGoWWdqbE" />
         <activity
             android:name=".MainActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".Payment"
             android:exported="false" />
         <activity
             android:name=".HomePage"

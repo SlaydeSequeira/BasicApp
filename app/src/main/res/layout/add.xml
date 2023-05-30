@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="20dp"
     android:background="#FFFFFF"
-    android:outlineAmbientShadowColor="#9a9999"
+    android:outlineAmbientShadowColor="#F8F8F8"
     >
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:layout_margin="5dp"
         app:cardCornerRadius="20dp"
-        android:backgroundTint="#A8A8A8"
+        android:backgroundTint="#F0F0F0"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,18 +66,22 @@
                 android:id="@+id/text2"
                 android:layout_below="@+id/text"
                 />
+
             <TextView
+                android:id="@+id/text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="170dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_toRightOf="@+id/card"
-                android:layout_margin="10dp"
-                android:textColor="#05C60F"
                 android:text="Cost"
+                android:textColor="#05C60F"
                 android:textSize="25dp"
-                android:textStyle="bold"
-                android:id="@+id/text3"
-                android:layout_below="@+id/text2"
-                />
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomePage"
-        android:background="#9A9999">
+        android:background="#FFFFFF">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
