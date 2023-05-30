@@ -1,7 +1,6 @@
 package com.example.basiclogintoapp.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,20 @@ import com.example.basiclogintoapp.R;
 
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+    private final int count;
     private String[] data;
     private String[] data2;
     private String[] picture;
     private String[] location;
     private Context context;
 
-    public RecyclerAdapter(Context context, String[] data, String[] data2, String[] picture, String[] location) {
+    public RecyclerAdapter(Context context, String[] data, int count, String[] data2, String[] picture, String[] location) {
         this.context = context;
         this.data = data;
         this.data2 = data2;
         this.picture = picture;
         this.location = location;
+        this.count=count;
     }
 
     @NonNull
@@ -51,7 +52,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return count;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
