@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment {
                 LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext());
                 layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView1.setLayoutManager(layoutManager1);
+                recyclerView1.setNestedScrollingEnabled(false);
                 RecyclerAdapter1 adapter1 = new RecyclerAdapter1(getContext(), data4,count1,data5,data6,Image2);
                 recyclerView1.setAdapter(adapter1);
 

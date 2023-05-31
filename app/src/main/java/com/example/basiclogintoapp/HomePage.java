@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import com.example.basiclogintoapp.Fragments.ChatFragment;
 import com.example.basiclogintoapp.Fragments.HomeFragment;
 import com.example.basiclogintoapp.Fragments.PaymentFragment;
+import com.example.basiclogintoapp.Fragments.ProfileFragment;
 import com.example.basiclogintoapp.Fragments.SearchFragment;
 import com.example.basiclogintoapp.Model.Users;
 import com.example.basiclogintoapp.adapter.MyPagerAdapter;
@@ -90,6 +91,7 @@ public class HomePage extends AppCompatActivity {
         pagerAdapter.addFragment(new HomeFragment(), "Home");
         pagerAdapter.addFragment(new SearchFragment(), "Search");
         pagerAdapter.addFragment(new PaymentFragment(), "Payment");
+        pagerAdapter.addFragment(new ProfileFragment(),"Profile");
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.baseline_home_24);
