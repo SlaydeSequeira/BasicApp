@@ -6,20 +6,24 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="DummyApp"
+        android:label="Local Trade Hub"
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicLoginToApp"
         tools:targetApi="31">
+        <!-- Add the PayPalService configuration -->
+        <activity
+            android:name=".Payment"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD3q0XgGvb9T-xvHaq6U-xVr3WGoWWdqbE" />
+
         <activity
             android:name=".MainActivity2"
             android:exported="false" />

@@ -16,10 +16,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.basiclogintoapp.Fragments.ChatFragment;
 import com.example.basiclogintoapp.Fragments.HomeFragment;
 import com.example.basiclogintoapp.Fragments.PaymentFragment;
@@ -40,6 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class HomePage extends AppCompatActivity {
 
@@ -50,12 +57,15 @@ public class HomePage extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
+    LinearLayout r1,r2,r3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            getWindow().setStatusBarColor(Color.parseColor("#F6F6F6"));
+        }
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         myRef = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
 
@@ -90,14 +100,71 @@ public class HomePage extends AppCompatActivity {
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         pagerAdapter.addFragment(new HomeFragment(), "Home");
         pagerAdapter.addFragment(new SearchFragment(), "Search");
-        pagerAdapter.addFragment(new PaymentFragment(), "Payment");
         pagerAdapter.addFragment(new ProfileFragment(),"Profile");
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.baseline_home_24);
         tabLayout.getTabAt(1).setIcon(R.drawable.baseline_search_24);
-
+        tabLayout.getTabAt(2).setIcon(R.drawable.baseline_person_24);
         navigationView = findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+        ImageView imageView = headerView.findViewById(R.id.image);
+        TextView Pts = headerView.findViewById(R.id.text);
+        TextView username = headerView.findViewById(R.id.username);
+        r1 = headerView.findViewById(R.id.rel1);
+        r2 = headerView.findViewById(R.id.rel2);
+        r3 = headerView.findViewById(R.id.rel5);
+        navigationView = findViewById(R.id.navigation_view);
+        FirebaseUser fuser;
+        DatabaseReference reference;
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("MyUsers")
+                .child(fuser.getUid());        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Users user = dataSnapshot.getValue(Users.class);
+                username.setText(user.getUsername());
+
+                if (user.getImageURL().equals("default")){
+                    imageView.setImageResource(R.mipmap.ic_launcher);
+                }else{
+                    try {
+                        Glide.with(HomePage.this).load(user.getImageURL()).into(imageView);
+                    }catch (Exception e){
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        r1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(2);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+        r2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomePage.this, MainActivity2.class);
+                startActivity(i);
+            }
+        });
+        r3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(HomePage.this, MainActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

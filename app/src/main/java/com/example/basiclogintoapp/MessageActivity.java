@@ -2,6 +2,7 @@ package com.example.basiclogintoapp;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -63,6 +64,9 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            getWindow().setStatusBarColor(Color.parseColor("#FBFAEC"));
+        }
         Objects.requireNonNull(getSupportActionBar()).hide();
         // Widgets
         imageView = findViewById(R.id.imageview_profile);

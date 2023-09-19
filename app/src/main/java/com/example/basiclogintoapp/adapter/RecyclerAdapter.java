@@ -1,6 +1,7 @@
 package com.example.basiclogintoapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private String[] location;
     private Context context;
 
-    public RecyclerAdapter(Context context, String[] data, int count, String[] data2, String[] picture, String[] location) {
+    public RecyclerAdapter(Context context, String[] data, int count, String[] data2, String[] location, String[] picture) {
         this.context = context;
         this.data = data;
         this.data2 = data2;
@@ -42,12 +43,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.textView.setText(data[position]);
         holder.textView2.setText(data2[position]);
-        holder.id.setText(location[position]);
+        holder.id.setText("Qty: "+location[position]);
         Glide.with(context)
                 .load(picture[position])
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             //   Intent i = new Intent(v.getContext(),);
+               // v.getContext().startActivity(i);
+            }
+        });
+
     }
 
     @Override

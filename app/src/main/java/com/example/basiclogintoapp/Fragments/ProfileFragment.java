@@ -12,19 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.basiclogintoapp.MainActivity;
+import com.example.basiclogintoapp.MainActivity2;
 import com.example.basiclogintoapp.Model.Users;
 import com.example.basiclogintoapp.R;
-import com.example.basiclogintoapp.adapter.RecyclerAdapter1;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,6 +53,7 @@ public class ProfileFragment extends Fragment {
     FirebaseUser fuser;
 
     RecyclerView recyclerView;
+    RelativeLayout r1,r2,r3;
     // Profile Image
     StorageReference storageReference;
     private static final int IMAGE_REQUEST = 1;
@@ -73,9 +75,31 @@ public class ProfileFragment extends Fragment {
 
         imageView = view.findViewById(R.id.profile_image2);
         username  = view.findViewById(R.id.username);
-
-
-
+        r1= view.findViewById(R.id.rel1);
+        r2= view.findViewById(R.id.rel2);
+        r3= view.findViewById(R.id.rel3);
+        r1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Intent i = new Intent(getActivity(), nearby.class);
+               //  startActivity(i);
+            }
+        });
+        r2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), MainActivity2.class);
+                startActivity(i);
+            }
+        });
+        r3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getActivity(), MainActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
         // Profile Image reference in storage
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -116,13 +140,7 @@ public class ProfileFragment extends Fragment {
                 SelectImage();
             }
         });
-        recyclerView = view.findViewById(R.id.recycler_view); // Replace 'recyclerView' with the actual ID of your RecyclerView in your XML layout file
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext());
-        layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager1);
-        recyclerView.setNestedScrollingEnabled(false);
-        RecyclerAdapter1 adapter1 = new RecyclerAdapter1(getContext(), data4,count1,data5,data6,Image2);
-        recyclerView.setAdapter(adapter1);
+
 
 
 

@@ -25,7 +25,7 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
     Context context;
     String[] picture;
 
-    public RecyclerAdapter1(Context context, String[] data, int count, String[] picture, String[] data2, String[] Author)
+    public RecyclerAdapter1(Context context, String[] data, int count, String[] data2, String[] Author, String[] picture)
     {
         this.data = data;
         this.context= context;
@@ -53,12 +53,18 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.View
     //for undo reverse do(int position =pos;)
     holder.textView.setText(data[position]);
     holder.textView2.setText(data2[position]);
-    holder.id.setText(Author[position]);
+    holder.id.setText("Qty: "+Author[position]);
     Glide.with(context)
                 .load(picture[position])
                 .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
-                .into(holder.imageView);
+                .error(R.drawable.ic_launcher_background).into(holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              //  Intent i = new Intent(v.getContext(),);
+               // v.getContext().startActivity(i);
+            }
+        });
 
     }
 

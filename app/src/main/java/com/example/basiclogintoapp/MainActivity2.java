@@ -3,33 +3,43 @@ package com.example.basiclogintoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationListener {
     private GoogleMap googleMap;
     private LocationManager locationManager;
-    private LocationListener locationListener;
+    private FloatingActionButton centerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,101 +48,68 @@ public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallba
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new LocationListener() {
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        centerMapToUserLocation();
+        centerButton = findViewById(R.id.centerButton);
+        centerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLocationChanged(Location location) {
-                // Handle location updates here
+            public void onClick(View view) {
+                centerMapToUserLocation();
             }
+        });
 
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-            }
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-            @Override
-            public void onProviderEnabled(String provider) {
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-            }
-        };
+        // Request location updates
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, this); // Update every 10 seconds or 10 meters change
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // Customize the map as needed
+        this.googleMap = googleMap;
 
-        // Create a list of places with their coordinates
         List<Place> places = new ArrayList<>();
-        places.add(new Place("Place 1", 37.7749, -122.4194));
-        places.add(new Place("Place 2", 15.2993, 74.124));
-        places.add(new Place("Place 3", 51.5074, -0.1278));
+        places.add(new Place("The Green Store", 19.0553, 72.8299)); // Shop 1 coordinates
+        places.add(new Place("Cafe Delights", 19.0632, 72.8347)); // Shop 2 coordinates
+        places.add(new Place("Electro Hub", 19.0628, 72.8327)); // Shop 3 coordinates
 
-        // Add markers for each place
         for (Place place : places) {
             LatLng placeLatLng = new LatLng(place.getLatitude(), place.getLongitude());
             googleMap.addMarker(new MarkerOptions()
                     .position(placeLatLng)
                     .title(place.getName()));
         }
-        this.googleMap = googleMap;
-
-        if (ActivityCompat.checkSelfPermission(MainActivity2.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity2.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity2.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        } else {
-            googleMap.setMyLocationEnabled(true);
-            googleMap.setOnMarkerClickListener(this);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (lastKnownLocation != null) {
-                double latitude = lastKnownLocation.getLatitude();
-                double longitude = lastKnownLocation.getLongitude();
-                String message = "Latitude: " + latitude + "\nLongitude: " + longitude;
-                Toast.makeText(MainActivity2.this, message, Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        LatLng destinationLatLng = marker.getPosition();
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            LatLng originLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!isGPSEnabled) {
+            Toast.makeText(this, "Please enable GPS", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (lastKnownLocation != null) {
+            LatLng destinationLatLng = marker.getPosition();
+            LatLng originLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
             String directionsUrl = getDirectionsUrl(originLatLng, destinationLatLng);
-            // Start an intent to open Google Maps with the directions URL
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(directionsUrl));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(directionsUrl));
             startActivity(intent);
         } else {
-            Toast.makeText(MainActivity2.this, "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
         }
         return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.checkSelfPermission(MainActivity2.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity2.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    googleMap.setMyLocationEnabled(true);
-                    googleMap.setOnMarkerClickListener(this);
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                    Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    if (lastKnownLocation != null) {
-                        double latitude = lastKnownLocation.getLatitude();
-                        double longitude = lastKnownLocation.getLongitude();
-                        String message = "Latitude: " + latitude + "\nLongitude: " + longitude;
-                        Toast.makeText(MainActivity2.this, message, Toast.LENGTH_LONG).show();
-                    }
-                }
-            } else {
-                // Permission denied
-                // Handle the case where the user denied the permission
-            }
-        }
     }
 
     private String getDirectionsUrl(LatLng origin, LatLng destination) {
@@ -141,8 +118,7 @@ public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallba
         String sensor = "sensor=false";
         String parameters = strOrigin + "&" + strDestination + "&" + sensor;
         String output = "json";
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
-        return url;
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
     }
 
     private class Place {
@@ -166,6 +142,46 @@ public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallba
 
         public double getLongitude() {
             return longitude;
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (googleMap != null) {
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+
+            // Save the last known location
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putFloat("lastLatitude", (float) location.getLatitude());
+            editor.putFloat("lastLongitude", (float) location.getLongitude());
+            editor.apply();
+
+            // Remove location updates after receiving a valid location
+            locationManager.removeUpdates(this);
+        }
+    }
+
+    private void centerMapToUserLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+                    } else {
+                        LatLng defaultLatLng = new LatLng(19.044307, 72.820399);
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 15));
+                    }
+                }
+            });
+        } else {
+            LatLng defaultLatLng = new LatLng(19.044307, 72.820399);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 15));
         }
     }
 }

@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        DatabaseReference myRef1 = firebaseDatabase.getReference("Hposts");
+        DatabaseReference myRef1 = firebaseDatabase.getReference("Vposts");
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

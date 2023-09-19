@@ -3,16 +3,22 @@
     android:layout_width="162dp"
     android:layout_height="252dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#000000"
-    android:outlineAmbientShadowColor="#9a9999"
+    android:background="#FFFFFF"
     >
-
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="10dp"
+    android:layout_margin="5dp"
+    android:layout_centerInParent="true"
+    app:cardCornerRadius="10dp"
+    >
     <RelativeLayout
         android:layout_width="160dp"
         android:layout_height="250dp"
-        android:layout_centerInParent="true"
-        android:background="@color/white"
-        android:elevation="10dp">
+        android:background="#EFEFEF"
+
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
@@ -25,9 +31,9 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:src="#939292"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:src="#939292" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -39,7 +45,8 @@
             android:layout_marginTop="5dp"
             android:text="Brand Name"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text2"
@@ -50,8 +57,7 @@
             android:layout_marginTop="5dp"
             android:text="Product       Name"
             android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/text3"
@@ -61,20 +67,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="10dp"
             android:text="Rs 100"
-            android:textColor="#FA40BC0A"
+            android:textColor="#FA020700"
             android:textSize="20dp"
             android:textStyle="bold" />
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:text="Buy"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/black"
-            android:backgroundTint="#FF5722"
-            android:background="@drawable/cir"
-            />
+
     </RelativeLayout>
+</androidx.cardview.widget.CardView>
 </RelativeLayout>
