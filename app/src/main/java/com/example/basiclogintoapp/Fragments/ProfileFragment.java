@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.basiclogintoapp.MainActivity;
 import com.example.basiclogintoapp.MainActivity2;
 import com.example.basiclogintoapp.Model.Users;
+import com.example.basiclogintoapp.Payment;
 import com.example.basiclogintoapp.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -81,8 +82,8 @@ public class ProfileFragment extends Fragment {
         r1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent i = new Intent(getActivity(), nearby.class);
-               //  startActivity(i);
+               Intent i = new Intent(getActivity(), Payment.class);
+               startActivity(i);
             }
         });
         r2.setOnClickListener(new View.OnClickListener() {

@@ -1,17 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".Payment">
 
-    <Button
-        android:id="@+id/paypal_button"
+    <androidx.cardview.widget.CardView
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:id="@+id/send"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="30dp"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="#42BD47"
+        android:text="Pay Now"
+        android:onClick="changeCardColor"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pay with PayPal"/>
-
-</LinearLayout>
+        android:textColor="@color/white"
+        android:text="Pay Now"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Payable Amount"
+        android:layout_above="@+id/amt"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/send"
+        android:textSize="16sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Rs 400"
+        android:id="@+id/amt"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/send"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        />
+</RelativeLayout>
