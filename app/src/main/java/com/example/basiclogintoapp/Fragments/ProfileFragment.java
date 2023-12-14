@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
     FirebaseUser fuser;
 
     RecyclerView recyclerView;
-    RelativeLayout r1,r2,r3;
+    RelativeLayout r1,r2,r3,r4,r5;
     // Profile Image
     StorageReference storageReference;
     private static final int IMAGE_REQUEST = 1;
@@ -78,7 +78,7 @@ public class ProfileFragment extends Fragment {
         username  = view.findViewById(R.id.username);
         r1= view.findViewById(R.id.rel1);
         r2= view.findViewById(R.id.rel2);
-        r3= view.findViewById(R.id.rel3);
+        r5= view.findViewById(R.id.rel5);
         r1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +93,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
-        r3.setOnClickListener(new View.OnClickListener() {
+        r5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();

@@ -9,9 +9,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/gradient"
         android:orientation="vertical"
         android:id="@+id/rel"
-        android:background="@drawable/gradient"
         >
 
         <androidx.cardview.widget.CardView
@@ -60,13 +60,50 @@
             app:layout_constraintEnd_toEndOf="@+id/card"
             app:layout_constraintStart_toStartOf="@+id/card"
             app:layout_constraintTop_toBottomOf="@+id/card" />
+        <TextView
+            android:id="@+id/ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:text="Username"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/card"
+            app:layout_constraintStart_toStartOf="@+id/card"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="20dp"
+            android:backgroundTint="#FFEB3B"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/card"
+            app:layout_constraintHorizontal_bias="0.375"
+            app:layout_constraintStart_toStartOf="@+id/card"
+            app:layout_constraintTop_toBottomOf="@+id/ID" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Points"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/rel2"
         android:layout_below="@id/rel1"
+        android:background="@drawable/back"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         >
@@ -88,6 +125,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
             android:layout_marginLeft="110dp"
             />
     </LinearLayout>
@@ -96,6 +134,7 @@
         android:layout_height="60dp"
         android:id="@+id/rel1"
         android:layout_below="@+id/rel"
+        android:background="@drawable/back"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         >
@@ -116,16 +155,144 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
             android:layout_marginLeft="67dp"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/rel3"
+        android:layout_below="@+id/rel2"
+        android:background="@drawable/back"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reward History"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold"
 
+            />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
+            android:layout_marginLeft="48dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/rel6"
+        android:layout_below="@+id/rel3"
+        android:background="@drawable/back"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            />        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Help and Services"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:textStyle="bold"
+
+        />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
+            android:layout_marginLeft="31dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/rel7"
+        android:layout_below="@+id/rel6"
+        android:background="@drawable/back"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructions and Demo"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold"
+
+            />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
+            android:layout_marginLeft="01dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/rel8"
+        android:layout_below="@+id/rel7"
+        android:background="@drawable/back"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/baseline_search_24"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find Bins"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold"
+
+            />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
+            android:layout_marginLeft="85dp"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/back"
+        android:id="@+id/rel4"
+        android:layout_below="@id/rel8"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/rel5"
-        android:layout_below="@id/rel2"
+        android:layout_below="@id/rel4"
         android:backgroundTint="#BCBCBC"
+        android:background="@drawable/back"
         android:orientation="horizontal"
         android:gravity="center_vertical"
 
@@ -146,12 +313,13 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
             android:layout_marginLeft="85dp"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2000dp"
+        android:layout_height="200dp"
         android:background="@color/white"
         android:layout_below="@id/rel5"
         />

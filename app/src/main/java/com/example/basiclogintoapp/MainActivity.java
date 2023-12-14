@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        userETLogin = findViewById(R.id.edittext);
+        userETLogin = findViewById(R.id.edittext1);
         passETlogin = findViewById(R.id.edittext2);
         loginBtn    = findViewById(R.id.loginbtn);
         RegisterBtn = findViewById(R.id.button);
