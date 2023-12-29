@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicLoginToApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ObjectDetection"
+            android:exported="false" />
         <!-- Add the PayPalService configuration -->
         <activity
             android:name=".Payment"

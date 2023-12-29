@@ -57,7 +57,7 @@ public class HomePage extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
-    LinearLayout r1,r2,r3;
+    LinearLayout r1,r2,r3,r4,r5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +100,13 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
-
+        r3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomePage.this,ObjectDetection.class);
+                startActivity(i);
+            }
+        });
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         TabItem home = findViewById(R.id.Home);
         TabItem search = findViewById(R.id.search);
@@ -124,7 +130,8 @@ public class HomePage extends AppCompatActivity {
         TextView username = headerView.findViewById(R.id.username);
         r1 = headerView.findViewById(R.id.rel1);
         r2 = headerView.findViewById(R.id.rel2);
-        r3 = headerView.findViewById(R.id.rel5);
+        r3 = headerView.findViewById(R.id.rel3);
+        r5 = headerView.findViewById(R.id.rel5);
         navigationView = findViewById(R.id.navigation_view);
         FirebaseUser fuser;
         DatabaseReference reference;
@@ -168,7 +175,7 @@ public class HomePage extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        r3.setOnClickListener(new View.OnClickListener() {
+        r5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();

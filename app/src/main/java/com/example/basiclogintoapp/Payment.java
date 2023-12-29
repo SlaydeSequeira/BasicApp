@@ -4,13 +4,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.google.android.gms.common.api.ApiException;
@@ -33,13 +38,20 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.PathInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Objects;
+
 public class Payment extends AppCompatActivity {
     CardView send;
     TextView send2;
@@ -57,6 +69,31 @@ public class Payment extends AppCompatActivity {
         i2=findViewById(R.id.img2);
         i3=findViewById(R.id.img3);
         i4=findViewById(R.id.img4);
+        RelativeLayout scrollView = findViewById(R.id.scrollable);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
+        CardView card1 = findViewById(R.id.card3);
+        CardView card2 = findViewById(R.id.card4);
+
+        scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
+            boolean showingCard1 = true;
+
+            public void onSwipeRight() {
+                if (!showingCard1) {
+                    showingCard1 = true;
+                    animateTransition(card2, card1, false);
+                }
+            }
+
+            public void onSwipeLeft() {
+                if (showingCard1) {
+                    showingCard1 = false;
+                    animateTransition(card1, card2, true);
+                }
+            }
+        });
+
+
         i1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,4 +192,98 @@ public class Payment extends AppCompatActivity {
                 break;
         }
     }
+    public class OnSwipeTouchListener implements View.OnTouchListener {
+
+        private final GestureDetector gestureDetector;
+
+        public OnSwipeTouchListener(Context context) {
+            gestureDetector = new GestureDetector(context, new GestureListener());
+        }
+
+        public void onSwipeRight() {
+        }
+
+        public void onSwipeLeft() {
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return gestureDetector.onTouchEvent(event);
+        }
+
+        private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                float diffX = e2.getX() - e1.getX();
+                float diffY = e2.getY() - e1.getY();
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffX > 0) {
+                            onSwipeRight();
+                        } else {
+                            onSwipeLeft();
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+    }
+    private void animateTransition(View fromView, View toView, boolean isSwipeLeft) {
+        // Increase elevation of 'fromView' temporarily during the animation
+        fromView.setElevation(12f); // Set the desired elevation value
+
+        // Fading, Rotating, Scaling, and Translating Animation for the "from" view
+        fromView.animate()
+                .alpha(0.0f)
+                .rotation(isSwipeLeft ? -45f : 45f) // Rotate the view
+                .scaleX(0.5f) // Scale down the view to 50%
+                .scaleY(0.5f)
+                .translationX(isSwipeLeft ? -fromView.getWidth() * 2f : fromView.getWidth() * 2f) // Move off the screen
+                .setDuration(800) // Adjust this duration for the disappearance speed
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        fromView.setVisibility(View.GONE);
+                        // Reset properties after the animation completes
+                        fromView.setAlpha(1.0f);
+                        fromView.setRotation(0);
+                        fromView.setScaleX(1.0f);
+                        fromView.setScaleY(1.0f);
+                        fromView.setTranslationX(0);
+                        fromView.setElevation(0f);
+                    }
+                })
+                .start();
+
+        // Scaling, Fading, Rotating, and Translating in animation for the "to" view
+        toView.setAlpha(0.0f);
+        toView.setScaleX(0.5f);
+        toView.setScaleY(0.5f);
+        toView.setRotation(isSwipeLeft ? 45f : -45f); // Initial rotation
+        toView.setTranslationX(isSwipeLeft ? toView.getWidth() * 2f : -toView.getWidth() * 2f); // Move off the screen in the opposite direction
+        toView.setVisibility(View.VISIBLE);
+        toView.animate()
+                .alpha(1.0f)
+                .rotation(0) // Bring back to original rotation
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .translationX(0)
+                .setInterpolator(new OvershootInterpolator()) // Apply overshoot effect
+                .setDuration(1000) // Adjust this duration for the appearance speed
+                .start();
+    }
+
+
+
 }

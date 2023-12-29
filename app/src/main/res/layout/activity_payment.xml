@@ -57,7 +57,7 @@
                     android:textSize="18sp"
                     android:layout_marginStart="20dp"
                     android:textStyle="bold" />
-                <HorizontalScrollView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -67,103 +67,113 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/text1"
-                        android:layout_margin="10dp"
+                        android:layout_height="200dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
                         android:orientation="horizontal">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal">
 
-                        <!-- Card 1 -->
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="260dp"
-                            android:layout_height="150dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="8dp"
-                            android:backgroundTint="#00000000"
-                            >
-
-                            <!-- Content inside the card -->
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:padding="16dp"
-                                android:background="@drawable/card_gradient_1"
-                                >
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:src="@drawable/visa"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_alignParentRight="true"
-                                    />
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentTop="true"
-                                    android:text="Credit Card"
-                                    android:id="@+id/card1"
-                                    android:textColor="#000000"
-                                    android:textSize="19sp"
-                                    android:textStyle="bold" />
+                                android:layout_height="match_parent">
+                                <!-- Card 1 -->
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/card3"
+                                    android:layout_width="260dp"
+                                    android:layout_height="150dp"
+                                    android:layout_centerInParent="true"
+                                    android:backgroundTint="#00000000"
+                                    android:visibility="visible"
+                                    app:cardCornerRadius="10dp"
+                                    app:cardElevation="8dp">
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:src="@drawable/chip"
-                                    android:layout_height="30dp"
-                                    android:layout_below="@id/card1"
-                                    android:layout_marginTop="5dp"
-                                     />
-                                <!-- Card number -->
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_marginBottom="22dp"
-                                    android:text="1234\t\t5678\t\t9012\t\t3456"
-                                    android:textColor="#000000"
-                                    android:textSize="17sp"
-                                    android:textStyle="bold" />
+                                    <!-- Content inside the card -->
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/card_gradient_1"
+                                        android:padding="16dp">
 
-                                <!-- Expiry date and CVV -->
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_alignParentBottom="true">
+                                        <ImageView
+                                            android:layout_width="40dp"
+                                            android:layout_height="40dp"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_alignParentRight="true"
+                                            android:src="@drawable/visa" />
 
-                                    <!-- Expiry date -->
-                                    <TextView
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Exp: 12/25"
-                                        android:textColor="#000000"
-                                        android:textSize="17sp"/>
+                                        <TextView
+                                            android:id="@+id/card1"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentTop="true"
+                                            android:text="Credit Card"
+                                            android:textColor="#000000"
+                                            android:textSize="19sp"
+                                            android:textStyle="bold" />
 
-                                    <!-- CVV -->
-                                    <TextView
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="CVV: 123"
-                                        android:textColor="#000000"
-                                        android:textSize="12sp"
-                                        android:textAlignment="viewEnd"/>
-                                </LinearLayout>
+                                        <ImageView
+                                            android:layout_width="60dp"
+                                            android:layout_height="30dp"
+                                            android:layout_below="@id/card1"
+                                            android:layout_marginTop="5dp"
+                                            android:src="@drawable/chip" />
+                                        <!-- Card number -->
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentBottom="true"
+                                            android:layout_marginBottom="22dp"
+                                            android:text="1234\t\t5678\t\t9012\t\t3456"
+                                            android:textColor="#000000"
+                                            android:textSize="17sp"
+                                            android:textStyle="bold" />
+
+                                        <!-- Expiry date and CVV -->
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentBottom="true"
+                                            android:orientation="horizontal">
+
+                                            <!-- Expiry date -->
+                                            <TextView
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="Exp: 12/25"
+                                                android:textColor="#000000"
+                                                android:textSize="17sp" />
+
+                                            <!-- CVV -->
+                                            <TextView
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="CVV: 123"
+                                                android:textAlignment="viewEnd"
+                                                android:textColor="#000000"
+                                                android:textSize="12sp" />
+                                        </LinearLayout>
+                                    </RelativeLayout>
+
+                                </androidx.cardview.widget.CardView>
                             </RelativeLayout>
-
-                        </androidx.cardview.widget.CardView>
-
                         <!-- Card 2 -->
-
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/card4"
                             android:layout_width="260dp"
                             android:layout_height="150dp"
                             app:cardCornerRadius="10dp"
+                            android:layout_centerInParent="true"
                             app:cardElevation="8dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
                             android:backgroundTint="#00000000"
-                            >
+                            android:visibility="gone">
 
                             <!-- Content inside the card -->
                             <RelativeLayout
@@ -237,8 +247,13 @@
                             </RelativeLayout>
 
                         </androidx.cardview.widget.CardView>
+
+                            </RelativeLayout>
+
+
+                        </FrameLayout>
                     </LinearLayout>
-                </HorizontalScrollView>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"

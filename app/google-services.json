@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "588108613584",
+    "firebase_url": "https://basiclogintoapp-default-rtdb.firebaseio.com",
     "project_id": "basiclogintoapp",
     "storage_bucket": "basiclogintoapp.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.basiclogintoapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "588108613584-g17u79udhf3jh0g0asn7ps6pb8pd5meb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDZtGPs_0dIaBz2pOM5E_SnizPKcHSqH2E"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588108613584-g17u79udhf3jh0g0asn7ps6pb8pd5meb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
