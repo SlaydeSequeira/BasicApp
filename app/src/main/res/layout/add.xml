@@ -8,6 +8,7 @@
     android:outlineAmbientShadowColor="#F8F8F8"
     >
 
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="170dp"
@@ -21,6 +22,17 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:id="@+id/ver"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="-50dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/oip"
+                />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card"
@@ -72,8 +84,8 @@
                 android:layout_toRightOf="@+id/card"
                 android:text="Cost"
                 android:textColor="#000000"
-                android:textSize="25dp"
-                android:textStyle="bold" />
+                android:textSize="15dp"
+                 />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

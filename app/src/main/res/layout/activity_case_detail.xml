@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/activity_case_detail.xml -->
+<!-- res/layout/activity_case_detail.xml -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".CaseDetailActivity">
+
+    <TextView
+        android:id="@+id/detailTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="16dp"/>
+
+    <TextView
+        android:id="@+id/detailDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_below="@id/detailTitleTextView"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"/>
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/detailDescriptionTextView"
+    android:id="@+id/text"
+    android:text="Progress Status"
+    android:textColor="@color/black"
+    android:layout_marginTop="40dp"
+    android:textStyle="bold"
+    android:layout_margin="20dp"
+    />
+        <ProgressBar
+            android:id="@+id/detailProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            />
+
+
+
+    <!-- Add more UI elements as needed -->
+
+</RelativeLayout>

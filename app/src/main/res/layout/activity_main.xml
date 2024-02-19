@@ -164,35 +164,14 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in via"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/rel"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:id="@+id/text1"
-
-        />
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/img_1"
-        android:layout_below="@+id/text1"
-        android:id="@+id/img"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        />
 
     <TextView
         android:id="@+id/text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/img"
+        android:layout_below="@+id/rel"
         android:layout_marginLeft="15dp"
-        android:text="New to Sociomart?"
+        android:text="New to AntiCorruption"
         android:textColor="#0027FF" />
 
     <Button

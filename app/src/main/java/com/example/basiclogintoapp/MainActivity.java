@@ -17,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -32,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     // Firebase:
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -94,14 +93,45 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()){
-                                        Intent i = new Intent(MainActivity.this,HomePage.class);
-                                        startActivity(i);
-                                    }
-                                    else{
+                                        // Get the user's UID
+                                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                        // Reference to the "MyUsers" node in the database
+                                        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("MyUsers");
+
+                                        // Reference to the specific user's node
+                                        DatabaseReference userRef = usersRef.child(uid);
+
+                                        // Retrieve the "admin" value from the user's node
+                                        userRef.child("admin").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                // Check if the "admin" value is 0
+                                                if (snapshot.exists()) {
+                                                    String adminValue = snapshot.getValue(String.class);
+                                                    Intent i;
+                                                    if ("0".equals(adminValue)) {
+                                                        i = new Intent(MainActivity.this, HomePage.class);
+                                                    } else {
+                                                        i = new Intent(MainActivity.this, AdminPage.class);
+                                                    }
+                                                    startActivity(i);
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                // Handle the error
+                                                Toast.makeText(MainActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
                                         Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
+
                 }
 
             }

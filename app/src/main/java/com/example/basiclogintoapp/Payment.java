@@ -1,5 +1,7 @@
 package com.example.basiclogintoapp;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -54,14 +56,16 @@ import java.util.Objects;
 
 public class Payment extends AppCompatActivity {
     CardView send;
-    TextView send2;
+    TextView send2,text,text2;
     final int UPI_PAYMENT = 0;
-
+    int cost;
     ImageView i1,i2,i3,i4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        cost = getIntent().getIntExtra("Cost", 90);
+        Log.d(TAG, "onCreate: "+cost);
         int a=0; // use like case to open gpay,payth etc;
         send2 = findViewById(R.id.send2);
         send = findViewById(R.id.send);
@@ -69,6 +73,10 @@ public class Payment extends AppCompatActivity {
         i2=findViewById(R.id.img2);
         i3=findViewById(R.id.img3);
         i4=findViewById(R.id.img4);
+        text=findViewById(R.id.text);
+        text.setText(String.valueOf("Your total is \n Rs "+cost));
+        text2=findViewById(R.id.amt);
+        text2.setText("Rs "+cost);
         RelativeLayout scrollView = findViewById(R.id.scrollable);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
@@ -142,7 +150,7 @@ public class Payment extends AppCompatActivity {
                 .authority("pay")
                 .appendQueryParameter("pa", "slaydesequeira03@okhdfcbank") // your personal VPA
                 .appendQueryParameter("pn", "Slayde Sequeira") // your name
-                .appendQueryParameter("am", amount) // amount
+                .appendQueryParameter("am", String.valueOf(cost)) // amount
                 .appendQueryParameter("cu", "INR") // currency
                 .appendQueryParameter("tn", "For personal use") // transaction note
                 .build();

@@ -120,14 +120,16 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rel1"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:cardCornerRadius="30dp"
-        android:id="@+id/rel1"
         android:layout_below="@+id/rel"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/reward"
-        >
+        app:cardCornerRadius="30dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -146,7 +148,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/baseline_edit_24" />
+                android:src="@drawable/baseline_report_problem_24" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,7 +156,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/image"
-                android:text="Edit Profile"
+                android:text="Report Issue"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -198,6 +200,7 @@
                 android:id="@+id/image1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@drawable/baseline_work_history_24"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                />
@@ -208,7 +211,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/image1"
-                android:text="Reward History"
+                android:text="Case History"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -239,7 +242,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
             android:background="@drawable/selector_background"
             android:elevation="10dp">
 
@@ -249,7 +255,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                 />
+                android:src="@drawable/baseline_help_24" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -257,7 +263,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/image2"
-                android:text="Verify Aadhar"
+                android:text="Help and Services"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -299,6 +305,7 @@
                 android:id="@+id/image3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@drawable/baseline_chat_24"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                  />
@@ -309,7 +316,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/image3"
-                android:text="Garbagetruck Route"
+                android:text="Chat"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />

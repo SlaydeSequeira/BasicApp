@@ -13,16 +13,17 @@
         android:id="@+id/top"
         android:elevation="-1dp"
         >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="#FFEB3B"
-            android:text="Your total is \n Rs 400"
-            android:textSize="30sp"
             android:gravity="center"
-            android:textStyle="bold"
-            />
+            android:id="@+id/text"
+            android:text="Your total is \n Rs 400"
+            android:textColor="#FFEB3B"
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

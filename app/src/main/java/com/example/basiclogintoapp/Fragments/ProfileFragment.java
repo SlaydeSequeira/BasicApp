@@ -1,12 +1,14 @@
 package com.example.basiclogintoapp.Fragments;
 
 import static android.app.Activity.RESULT_OK;
+import static android.service.controls.ControlsProviderService.TAG;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +24,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.basiclogintoapp.CaseManagementSystem;
 import com.example.basiclogintoapp.MainActivity;
 import com.example.basiclogintoapp.MainActivity2;
+import com.example.basiclogintoapp.MessageActivity;
+import com.example.basiclogintoapp.Model.OrderItem;
 import com.example.basiclogintoapp.Model.Users;
+import com.example.basiclogintoapp.OrderPage;
 import com.example.basiclogintoapp.Payment;
+import com.example.basiclogintoapp.PendingCases;
 import com.example.basiclogintoapp.R;
+import com.example.basiclogintoapp.ReportForm;
+import com.example.basiclogintoapp.SendAlert;
+import com.example.basiclogintoapp.Travel;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -78,29 +88,51 @@ public class ProfileFragment extends Fragment {
         username  = view.findViewById(R.id.username);
         r1= view.findViewById(R.id.rel1);
         r2= view.findViewById(R.id.rel2);
+        r3=view.findViewById(R.id.rel3);
+        r4= view.findViewById(R.id.rel4);
         r5= view.findViewById(R.id.rel5);
         r1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent i = new Intent(getActivity(), Payment.class);
+               Intent i = new Intent(getActivity(), ReportForm.class);
                startActivity(i);
             }
         });
         r2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), MainActivity2.class);
+                Intent i = new Intent(getActivity(), PendingCases.class);
                 startActivity(i);
+            }
+        });
+        r3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CaseManagementSystem.class);
+                startActivity(i);
+                Log.d(TAG, "onClick: " );
             }
         });
         r5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getActivity(), MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent i = new Intent(getActivity(), MessageActivity.class);
+                i.putExtra("userid", "vrszPY65eDYgOMgVFkhMrc2Xkvu1");
+                startActivity(i);
             }
         });
+        r4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish(); // Finish the current activity to prevent going back to it
+            }
+        });
+
         // Profile Image reference in storage
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -213,6 +245,7 @@ public class ProfileFragment extends Fragment {
                         progressDialog.dismiss();
                     }else{
 
+
                         Toast.makeText(getContext(), "Failed!!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -247,11 +280,7 @@ public class ProfileFragment extends Fragment {
 
 
             if (uploadTask != null && uploadTask.isInProgress()){
-
                 Toast.makeText(getContext(), "Upload in progress..", Toast.LENGTH_SHORT).show();
-
-
-
             }else {
 
                 UploadMyImage();
@@ -260,4 +289,8 @@ public class ProfileFragment extends Fragment {
 
         }
     }
+    public void openWebsite() {
+        String url = "https://dcruzjanice.github.io/BitNBuild/"; Intent i = new Intent (Intent.ACTION_VIEW); i.setData (Uri.parse (url)); startActivity (i);
+    }
+
 }

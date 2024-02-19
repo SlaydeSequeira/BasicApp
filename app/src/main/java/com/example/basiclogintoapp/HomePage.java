@@ -24,9 +24,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.basiclogintoapp.Fragments.ChatFragment;
+import com.example.basiclogintoapp.Fragments.Home2Fragment;
 import com.example.basiclogintoapp.Fragments.HomeFragment;
 import com.example.basiclogintoapp.Fragments.PaymentFragment;
 import com.example.basiclogintoapp.Fragments.ProfileFragment;
@@ -100,13 +102,7 @@ public class HomePage extends AppCompatActivity {
 
             }
         });
-        r3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(HomePage.this,ObjectDetection.class);
-                startActivity(i);
-            }
-        });
+
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         TabItem home = findViewById(R.id.Home);
         TabItem search = findViewById(R.id.search);
@@ -115,7 +111,7 @@ public class HomePage extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.viewpager);
 
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        pagerAdapter.addFragment(new HomeFragment(), "Home");
+        pagerAdapter.addFragment(new Home2Fragment(), "Home");
         pagerAdapter.addFragment(new SearchFragment(), "Search");
         pagerAdapter.addFragment(new ProfileFragment(),"Profile");
         viewPager.setAdapter(pagerAdapter);
@@ -131,6 +127,7 @@ public class HomePage extends AppCompatActivity {
         r1 = headerView.findViewById(R.id.rel1);
         r2 = headerView.findViewById(R.id.rel2);
         r3 = headerView.findViewById(R.id.rel3);
+        r4 = headerView.findViewById(R.id.rel6);
         r5 = headerView.findViewById(R.id.rel5);
         navigationView = findViewById(R.id.navigation_view);
         FirebaseUser fuser;
@@ -171,7 +168,21 @@ public class HomePage extends AppCompatActivity {
         r2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HomePage.this, MainActivity2.class);
+                Intent i = new Intent(HomePage.this, ReportForm.class);
+                startActivity(i);
+            }
+        });
+        r4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomePage.this, TransparentTransactions.class);
+                startActivity(i);
+            }
+        });
+        r3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomePage.this, PendingCases.class);
                 startActivity(i);
             }
         });
@@ -180,7 +191,8 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(HomePage.this, MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
             }
         });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -197,6 +209,9 @@ public class HomePage extends AppCompatActivity {
                         break;
                     case R.id.maps:
                         Intent i = new Intent(HomePage.this, MainActivity2.class);
+                        i.putExtra("X","72");
+                        i.putExtra("Y","19");
+                        i.putExtra("Z","hotel0");
                         startActivity(i);
                         break;
                 }

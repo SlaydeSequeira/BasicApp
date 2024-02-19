@@ -19,16 +19,18 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
+    boolean admin;
     private Context context;
     private List<Users> mUsers;
     private boolean isChat;
 
 
     // Constructor
-    public UserAdapter(Context context, List<Users> mUsers, boolean isChat) {
+    public UserAdapter(Context context, List<Users> mUsers, boolean isChat, boolean admin) {
         this.context = context;
         this.mUsers = mUsers;
         this.isChat = isChat;
+        this.admin = admin;
     }
 
 
@@ -82,6 +84,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent i = new Intent(context, MessageActivity.class);
                 i.putExtra("userid", users.getId());
+                i.putExtra("admin",admin);
                 context.startActivity(i);
 
             }

@@ -40,7 +40,7 @@ public class MessageActivity extends AppCompatActivity {
     TextView username;
     ImageView imageView;
 
-
+    boolean isAdmin;
 
     RecyclerView recyclerViewy;
     EditText msg_editText;
@@ -87,31 +87,37 @@ public class MessageActivity extends AppCompatActivity {
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
-
+        isAdmin = intent.getBooleanExtra("admin", false); // Default value is false if not provided
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("MyUsers").child(userid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Users user  = dataSnapshot.getValue(Users.class);
-                username.setText(user.getUsername());
+                Users user = dataSnapshot.getValue(Users.class);
 
-                if(user.getImageURL().equals("default")){
-                    imageView.setImageResource(R.mipmap.ic_launcher);
-                }else{
-                    Glide.with(MessageActivity.this)
-                            .load(user.getImageURL())
-                            .into(imageView);
+                if (!isAdmin) { // Only set username and image if not an admin
+                    username.setText(user.getUsername());
+
+                    if (user.getImageURL().equals("default")) {
+                        imageView.setImageResource(R.mipmap.ic_launcher);
+                    } else {
+                        Glide.with(MessageActivity.this)
+                                .load(user.getImageURL())
+                                .into(imageView);
+                    }
+                } else {
+                    // Hide profile picture and username for admin
+                    username.setVisibility(View.GONE);
+                    imageView.setVisibility(View.GONE);
                 }
 
-
-                readMessages(fuser.getUid(),userid, user.getImageURL());
+                readMessages(fuser.getUid(), userid, user.getImageURL());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // ...
             }
         });
 
@@ -272,8 +278,4 @@ public class MessageActivity extends AppCompatActivity {
         reference.removeEventListener(seenListener);
         CheckStatus("Offline");
     }
-
-
-
-
 }

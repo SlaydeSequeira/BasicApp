@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    tools:context=".ReportForm"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Report"
+        android:textColor="@color/black"
+        android:textSize="38sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"/>
+    <TextView
+        android:id="@+id/textViewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Details:"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginTop="60dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+
+    <RelativeLayout
+        android:layout_below="@id/textViewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/white"
+        android:id="@+id/rel1"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="9dp"
+            android:background="@drawable/circle"
+            android:id="@+id/edittext1"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:background="@color/white"
+            android:text="Description"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="19dp"
+            android:backgroundTint="#D6D6D6"
+            app:cardCornerRadius="200dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_description_24" />
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/buttonTakePicture"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Take Picture"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="10sp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/polylineColor"
+        android:layout_below="@id/rel1"
+        android:layout_marginTop="16dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/buttonTakePicture"
+        android:layout_marginTop="26dp"
+        android:visibility="gone"
+        android:id="@+id/rell"
+        >
+    <ImageView
+        android:id="@+id/imageViewPicture"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="#51000000"
+            />
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/th"
+            android:id="@+id/viewinmap"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:layout_marginTop="110dp"
+            android:layout_marginLeft="100dp"
+            android:text="Location: J.B.Colony, Orlem, Malad (W), Mumbai- 400064, Maharashtra, India\n Latitude:- 19.194530 \tLongitude:-72.836805"
+            />
+</RelativeLayout>
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Submit"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/polylineColor"
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>

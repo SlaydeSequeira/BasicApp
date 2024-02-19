@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomePage"
-        android:background="#F6F6F6"
+        android:background="#FFFFFF"
         >
         <!-- CardView containing TabLayout -->
         <androidx.cardview.widget.CardView
@@ -135,8 +135,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:cardCornerRadius="200px"

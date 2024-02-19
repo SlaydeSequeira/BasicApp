@@ -76,13 +76,14 @@ public class SearchFragment extends Fragment {
                     Users user = snapshot.getValue(Users.class);
 
                     assert user != null;
-                    if (!user.getId().equals(firebaseUser.getUid()) &&
-                            user.getUsername().toLowerCase().contains(searchQuery)) {
+                    assert firebaseUser != null;
+                    if (user.getId() != null && user.getUsername() != null &&
+                            !user.getId().equals(firebaseUser.getUid()) && user.getUsername().toLowerCase().contains(searchQuery)) {
                         mUsers.add(user);
                     }
                 }
 
-                userAdapter = new UserAdapter(getContext(), mUsers, false);
+                userAdapter = new UserAdapter(getContext(), mUsers, false,false);
                 recyclerView.setAdapter(userAdapter);
             }
 

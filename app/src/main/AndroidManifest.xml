@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- AndroidManifest.xml -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -11,22 +16,77 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Local Trade Hub"
+        android:icon="@drawable/logo"
+        android:label="Anti Corruption"
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicLoginToApp"
         tools:targetApi="31">
         <activity
-            android:name=".ObjectDetection"
+            android:name=".CaseDetailActivity"
             android:exported="false" />
-        <!-- Add the PayPalService configuration -->
         <activity
-            android:name=".Payment"
+            android:name=".CaseManagementSystem"
+            android:exported="false" />
+        <activity
+            android:name=".TransparentTransactions"
+            android:exported="false" />
+        <activity
+            android:name=".AdminChat"
+            android:exported="false" />
+        <activity
+            android:name=".PendingCases"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD3q0XgGvb9T-xvHaq6U-xVr3WGoWWdqbE" />
+
+        <activity
+            android:name=".ReportForm"
+            android:exported="false" />
+        <activity
+            android:name=".Travel"
+            android:exported="false" />
+        <activity
+            android:name=".OrderPage"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VerificationPage"
+            android:exported="false" />
+        <activity
+            android:name=".AdminPage"
+            android:exported="false" />
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".SendAlert"
+            android:exported="false" />
+        <activity
+            android:name=".ObjectDetection"
+            android:exported="false" /> <!-- Add the PayPalService configuration -->
+        <activity
+            android:name=".Payment"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <activity
             android:name=".MainActivity2"

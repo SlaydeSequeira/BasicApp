@@ -1,12 +1,10 @@
 package com.example.basiclogintoapp.Model;
-
 public class Users {
 
     private String id;
     private String username;
     private String imageURL;
     private String status;
-
 
     // Constructors;
     public Users() {
@@ -16,9 +14,8 @@ public class Users {
         this.id = id;
         this.username = username;
         this.imageURL = imageURL;
-        this.status   = status;
+        this.status = status;
     }
-
 
     // Getters and Setters
 
@@ -52,5 +49,14 @@ public class Users {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    // Method to set default anonymous username
+    public void setDefaultAnonymousUsername(int anonymousUserCount) {
+        this.username = "Anonymous User #" + anonymousUserCount;
+    }
+    public void setDefaultProfilePicture() {
+        // Set the default profile picture URL here
+        this.imageURL = "default_profile_picture_url";
     }
 }

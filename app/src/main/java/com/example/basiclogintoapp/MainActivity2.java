@@ -1,7 +1,10 @@
 package com.example.basiclogintoapp;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -17,10 +20,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,20 +38,68 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
+
 public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationListener {
     private GoogleMap googleMap;
     private LocationManager locationManager;
+    Location location1;
     private FloatingActionButton centerButton;
+
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Initialize locationCallback to receive location updates
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                if (locationResult != null) {
+                    location1 = locationResult.getLastLocation();
+                    if (location1 != null) {
+                        // Display coordinates in a Toast message
+                        String message = "Latitude: " + location1.getLatitude() + "\nLongitude: " + location1.getLongitude();
+                        //  Toast.makeText(MainActivity2.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+
+        // Check and request location permissions
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            // Start receiving location updates
+            startLocationUpdates();
+        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
@@ -72,9 +127,7 @@ public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallba
         this.googleMap = googleMap;
 
         List<Place> places = new ArrayList<>();
-        places.add(new Place("The Green Store", 19.0553, 72.8299)); // Shop 1 coordinates
-        places.add(new Place("Cafe Delights", 19.0632, 72.8347)); // Shop 2 coordinates
-        places.add(new Place("Electro Hub", 19.0628, 72.8327)); // Shop 3 coordinates
+        places.add(new Place("Marked location", 19.194976, 72.835818));
 
         for (Place place : places) {
             LatLng placeLatLng = new LatLng(place.getLatitude(), place.getLongitude());
@@ -99,18 +152,24 @@ public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallba
             return true;
         }
 
-        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (lastKnownLocation != null) {
-            LatLng destinationLatLng = marker.getPosition();
-            LatLng originLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-            String directionsUrl = getDirectionsUrl(originLatLng, destinationLatLng);
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(directionsUrl));
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
+        try {
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastKnownLocation != null) {
+                LatLng destinationLatLng = marker.getPosition();
+                LatLng originLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                String directionsUrl = getDirectionsUrl(originLatLng, destinationLatLng);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(directionsUrl));
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
+            }
+        } catch (SecurityException e) {
+            // Handle the exception, for example, display a message to the user.
+            Toast.makeText(this, "Unable to retrieve current location due to GPS permission issue", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
+
 
     private String getDirectionsUrl(LatLng origin, LatLng destination) {
         String strOrigin = "origin=" + origin.latitude + "," + origin.longitude;
@@ -167,21 +226,73 @@ public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallba
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-                        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
-                    } else {
-                        LatLng defaultLatLng = new LatLng(19.044307, 72.820399);
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 15));
+            if (location1 == null) {
+
+                fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+                        } else {
+                            LatLng defaultLatLng = new LatLng(location1.getLatitude(), location1.getLongitude());
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 15));
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                LatLng defaultLatLng = new LatLng(location1.getLatitude(), location1.getLongitude());
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 15));
+            }
         } else {
-            LatLng defaultLatLng = new LatLng(19.044307, 72.820399);
+            LatLng defaultLatLng = new LatLng(18.943044, 72.828842);
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 15));
         }
     }
+
+    private void startLocationUpdates() {
+        LocationRequest locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10000) // Update interval in milliseconds
+                .setFastestInterval(5000); // Fastest update interval in milliseconds
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, start receiving location updates
+                startLocationUpdates();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                googleMap.setMyLocationEnabled(true);
+                googleMap.setOnMarkerClickListener(this);
+            } else {
+                // Permission denied, handle accordingly
+                Toast.makeText(this, "Location permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Stop location updates when the activity is destroyed
+        fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
 }
